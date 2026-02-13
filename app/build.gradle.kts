@@ -50,6 +50,8 @@ kotlin {
 
 dependencies {
     implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.appcompat.resources)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.viewmodel.navigation3)
@@ -63,6 +65,7 @@ dependencies {
     implementation(libs.navigation3.ui)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
     implementation(libs.work.runtime.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
