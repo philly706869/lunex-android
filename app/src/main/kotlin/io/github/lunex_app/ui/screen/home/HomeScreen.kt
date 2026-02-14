@@ -1,5 +1,6 @@
 package io.github.lunex_app.ui.screen.home
 
+import android.os.Parcelable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -39,28 +39,63 @@ import coil3.compose.AsyncImage
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import io.github.lunex_app.R
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+private sealed interface Modal : Parcelable {
+    @Parcelize
+    data object Add : Modal
+
+    @Parcelize
+    data class Detail(val archiveId: Long) : Modal
+
+    @Parcelize
+    data class Edit(val archiveId: Long) : Modal
+
+    @Parcelize
+    data class Delete(val archiveId: Long) : Modal
+}
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun HomeScreen(vm: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(onNavArchive: (archive: Long) -> Unit) {
+    val vm = hiltViewModel<HomeViewModel>()
     val archives = vm.archives.collectAsLazyPagingItems()
-    var showAddArchiveDialog by rememberSaveable { mutableStateOf(false) }
+    var modal by rememberSaveable { mutableStateOf<Modal?>(null) }
+
+    when (val capturedModal = modal) {
+        null -> {}
+
+        is Modal.Add -> ArchiveCreationModal(
+            onDismiss = { modal = null }
+        )
+
+        is Modal.Detail -> ArchiveDetailModal(
+            archiveId = capturedModal.archiveId,
+            onEdit = { modal = Modal.Edit(capturedModal.archiveId) },
+            onDelete = { modal = Modal.Delete(capturedModal.archiveId) },
+            onDismiss = { modal = null }
+        )
+
+        is Modal.Edit -> ArchiveEditModal(
+            archiveId = capturedModal.archiveId,
+            onDismiss = { modal = null }
+        )
+
+        is Modal.Delete -> ArchiveDeletionModal(
+            archiveId = capturedModal.archiveId,
+            onDismiss = { modal = null }
+        )
+    }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.app_name)) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showAddArchiveDialog = true }) {
+            FloatingActionButton(onClick = { modal = Modal.Add }) {
                 Icon(painterResource(R.drawable.ic_add), null)
             }
         }
     ) { padding ->
-        if (showAddArchiveDialog) {
-            AddArchiveDialog(
-                onConfirm = { archiveName -> vm.createArchive(archiveName) },
-                onDismiss = { showAddArchiveDialog = false }
-            )
-        }
-
         Box(modifier = Modifier.padding(padding)) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(128.dp),
@@ -68,21 +103,18 @@ fun HomeScreen(vm: HomeViewModel = hiltViewModel()) {
             ) {
                 items(
                     count = archives.itemCount,
-                    key = archives.itemKey { it.archive.id },
+                    key = archives.itemKey { it.data.id },
                 ) { index ->
+                    val archive = archives[index]
                     Box(
                         modifier = Modifier
                             .combinedClickable(
-                                onClick = {},
-                                onLongClick = {}
+                                onClick = { archive?.let { onNavArchive(it.data.id) } },
+                                onLongClick = { archive?.let { modal = Modal.Detail(it.data.id) } }
                             )
                             .padding(8.dp)
                     ) {
-                        val item = archives[index]
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                        ) {
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             AsyncImage(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -102,14 +134,14 @@ fun HomeScreen(vm: HomeViewModel = hiltViewModel()) {
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop
                             )
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Column {
                                 Text(
-                                    item?.archive?.name ?: "",
-                                    style = MaterialTheme.typography.titleMedium,
+                                    archive?.data?.name ?: "",
+                                    style = MaterialTheme.typography.titleSmall,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
-                                    item?.itemCount?.toString() ?: "",
+                                    archive?.itemCount?.toString() ?: "",
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )

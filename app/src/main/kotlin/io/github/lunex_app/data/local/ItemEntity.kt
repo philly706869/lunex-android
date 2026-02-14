@@ -17,15 +17,16 @@ import androidx.room.Index
         )
     ],
     indices = [
-        Index("createdAt"),
-        Index("indexedAt"),
-        Index("deletedAt"),
+        Index("archive", "uuid", "createdAt", unique = true),
+        Index("archive", "uuid", "indexedAt", unique = true),
+        Index("archive", "deletedAt", "createdAt"),
+        Index("archive", "deletedAt", "indexedAt"),
     ],
 )
 data class ItemEntity(
     val archive: Long,
     val uuid: String,
     val createdAt: Long,
-    val indexedAt: Long,
-    val deletedAt: Long?,
+    val indexedAt: Long = System.currentTimeMillis(),
+    val deletedAt: Long? = null,
 )

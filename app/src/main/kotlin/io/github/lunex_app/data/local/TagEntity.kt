@@ -17,13 +17,12 @@ import androidx.room.Index
         )
     ],
     indices = [
-        Index("createdAt"),
-        Index("deletedAt"),
+        Index("deletedAt", "createdAt"),
     ],
 )
 data class TagEntity(
     val archive: Long,
     val name: String,
-    val createdAt: Long,
-    val deletedAt: Long?,
+    val createdAt: Long = System.currentTimeMillis(),
+    val deletedAt: Long? = null,
 )

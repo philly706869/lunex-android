@@ -10,34 +10,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
-fun AddArchiveDialog(
-    onConfirm: (archiveName: String) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    var archiveName by rememberSaveable { mutableStateOf("") }
+fun ArchiveEditModal(archiveId: Long, onDismiss: () -> Unit) {
+    val vm = hiltViewModel<ArchiveEditViewModel>()
+    var name by rememberSaveable { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("새 아카이브 생성") },
+        title = { Text("아카이브 이름 바꾸기") },
         text = {
             OutlinedTextField(
                 label = { Text("아카이브 이름") },
-                value = archiveName,
-                onValueChange = { archiveName = it },
+                value = name,
+                onValueChange = { name = it },
                 singleLine = true,
             )
         },
         confirmButton = {
             Button(
                 onClick = {
-                    if (archiveName.isNotBlank()) {
-                        onConfirm(archiveName)
+                    if (name.isNotBlank()) {
+                        vm.updateArchive(archiveId, name)
                         onDismiss()
                     }
                 },
-                enabled = archiveName.isNotBlank()
+                enabled = name.isNotBlank()
             ) {
                 Text("생성")
             }

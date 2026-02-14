@@ -10,6 +10,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.lunex_app.ui.navigation.Screen
+import io.github.lunex_app.ui.screen.archive.ArchiveScreen
 import io.github.lunex_app.ui.screen.home.HomeScreen
 
 @AndroidEntryPoint
@@ -24,8 +25,15 @@ class LunexActivity : ComponentActivity() {
                 NavDisplay(
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
-                    entryProvider = entryProvider<Screen> {
-                        entry<Screen.Home> { HomeScreen() }
+                    entryProvider = entryProvider {
+                        entry<Screen.Home> {
+                            HomeScreen(onNavArchive = { archive ->
+                                backStack.add(Screen.Archive(archive))
+                            })
+                        }
+                        entry<Screen.Archive> {
+                            ArchiveScreen(archiveId = it.archiveId)
+                        }
                     }
                 )
             }

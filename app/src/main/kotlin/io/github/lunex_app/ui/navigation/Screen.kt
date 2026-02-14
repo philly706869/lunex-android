@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface Screen {
     @Serializable
     data object Home : Screen
+
+    @Serializable
+    data class Archive(val archiveId: Long) : Screen
 }
