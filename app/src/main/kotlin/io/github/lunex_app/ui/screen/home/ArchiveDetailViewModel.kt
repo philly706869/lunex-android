@@ -19,7 +19,7 @@ class ArchiveDetailViewModel @Inject constructor(private val dao: LunexDao) : Vi
     @OptIn(ExperimentalCoroutinesApi::class)
     val archive = archiveId
         .filterNotNull()
-        .flatMapLatest { id -> dao.getArchive(id) }
+        .flatMapLatest { id -> dao.getArchiveWithCount(id) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
     fun setArchive(id: Long?) {

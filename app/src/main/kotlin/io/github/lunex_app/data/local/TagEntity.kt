@@ -17,7 +17,7 @@ import androidx.room.Index
         )
     ],
     indices = [
-        Index("deletedAt", "createdAt"),
+        Index("archive", "deletedAt", "name"),
     ],
 )
 data class TagEntity(

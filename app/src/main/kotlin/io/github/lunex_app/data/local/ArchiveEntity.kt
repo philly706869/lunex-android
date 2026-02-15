@@ -6,11 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "archives",
-    indices =
-        [
-            Index("deletedAt", "name"),
-            Index("deletedAt", "createdAt"),
-        ],
+    indices = [
+        Index("deletedAt", "name"),
+    ],
 )
 data class ArchiveEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,

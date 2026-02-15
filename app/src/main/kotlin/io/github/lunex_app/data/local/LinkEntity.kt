@@ -31,11 +31,12 @@ import androidx.room.Index
         )
     ],
     indices = [
-        Index("archive", "name"),
+        Index("archive", "name", "flag", "uuid")
     ],
 )
 data class LinkEntity(
     val archive: Long,
     val uuid: String,
     val name: String,
+    val flag: Boolean,
 )

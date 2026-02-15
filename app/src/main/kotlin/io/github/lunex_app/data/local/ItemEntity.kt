@@ -6,26 +6,25 @@ import androidx.room.Index
 
 @Entity(
     tableName = "items",
-    primaryKeys = ["archive", "uuid"],
+    primaryKeys = ["uuid"],
     foreignKeys = [
         ForeignKey(
             entity = ArchiveEntity::class,
             parentColumns = ["id"],
             childColumns = ["archive"],
             onUpdate = ForeignKey.CASCADE,
-            onDelete = ForeignKey.RESTRICT,
+            onDelete = ForeignKey.CASCADE,
         )
     ],
     indices = [
-        Index("archive", "uuid", "createdAt", unique = true),
-        Index("archive", "uuid", "indexedAt", unique = true),
+        Index("archive", "uuid"),
         Index("archive", "deletedAt", "createdAt"),
         Index("archive", "deletedAt", "indexedAt"),
     ],
 )
 data class ItemEntity(
-    val archive: Long,
     val uuid: String,
+    val archive: Long,
     val createdAt: Long,
     val indexedAt: Long = System.currentTimeMillis(),
     val deletedAt: Long? = null,
