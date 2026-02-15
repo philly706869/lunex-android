@@ -6,7 +6,7 @@ import androidx.room.Index
 
 @Entity(
     tableName = "links",
-    primaryKeys = ["archive", "uuid", "name"],
+    primaryKeys = ["uuid", "archive", "name"],
     foreignKeys = [
         ForeignKey(
             entity = ArchiveEntity::class,
@@ -17,8 +17,8 @@ import androidx.room.Index
         ),
         ForeignKey(
             entity = ItemEntity::class,
-            parentColumns = ["archive", "uuid"],
-            childColumns = ["archive", "uuid"],
+            parentColumns = ["uuid", "archive"],
+            childColumns = ["uuid", "archive"],
             onUpdate = ForeignKey.CASCADE,
             onDelete = ForeignKey.CASCADE,
         ),
@@ -35,8 +35,8 @@ import androidx.room.Index
     ],
 )
 data class LinkEntity(
-    val archive: Long,
     val uuid: String,
+    val archive: Long,
     val name: String,
     val flag: Boolean,
 )

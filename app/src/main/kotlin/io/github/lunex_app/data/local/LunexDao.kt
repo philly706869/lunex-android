@@ -74,6 +74,17 @@ interface LunexDao {
     )
     fun getDeletedItems(archive: Long): PagingSource<Int, ItemEntity>
 
+    @Query(
+        """
+        SELECT i.*, t.name
+        FROM items i
+        LEFT JOIN links l ON l.uuid = i.uuid
+        LEFT JOIN tags t ON t.archive = l.archive AND t.name = l.name AND t.deletedAt IS NULL
+        WHERE i.uuid = :uuid
+        """
+    )
+    fun getItem(uuid: String): Flow<Map<ItemEntity, List<String>>>
+
     @Insert
     suspend fun insertItem(item: ItemEntity)
 
