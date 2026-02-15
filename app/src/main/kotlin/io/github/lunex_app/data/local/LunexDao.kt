@@ -61,7 +61,7 @@ interface LunexDao {
     @Query("UPDATE archives SET deletedAt = NULL WHERE id = :id")
     suspend fun restoreArchive(id: Long)
 
-    @RawQuery(observedEntities = [ItemEntity::class, LinkEntity::class])
+    @RawQuery(observedEntities = [ItemEntity::class, LinkEntity::class, TagEntity::class])
     fun getItemsByTags(query: SupportSQLiteQuery): PagingSource<Int, ItemEntity>
 
     @Query(
