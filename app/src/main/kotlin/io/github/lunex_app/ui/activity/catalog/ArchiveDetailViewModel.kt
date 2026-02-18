@@ -1,4 +1,4 @@
-package io.github.lunex_app.ui.screen.home
+package io.github.lunex_app.ui.activity.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <!-- FOR TEST -->
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".LunexApplication"
@@ -16,7 +14,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:supportsRtl="true">
         <activity
-            android:name=".ui.LunexActivity"
+            android:name=".ui.activity.catalog.CatalogActivity"
             android:exported="true"
             android:theme="@style/Theme.Lunex">
             <intent-filter>
@@ -24,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.archive.ArchiveActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Lunex" />
+        <activity
+            android:name=".ui.activity.explorer.ExplorerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Lunex" />
     </application>
 
 </manifest>

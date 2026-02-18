@@ -1,4 +1,4 @@
-package io.github.lunex_app.ui.screen.home
+package io.github.lunex_app.ui.activity.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArchiveCreationViewModel @Inject constructor(private val dao: LunexDao) : ViewModel() {
-    fun createArchive(name: String) = viewModelScope.launch {
-        dao.insertArchive(ArchiveEntity(name = name))
+    fun createArchive(name: String, path: String) = viewModelScope.launch {
+        dao.insertArchive(ArchiveEntity(name = name, path = path))
     }
 }

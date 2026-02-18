@@ -1,4 +1,4 @@
-package io.github.lunex_app.ui.screen.home
+package io.github.lunex_app.ui.activity.catalog
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

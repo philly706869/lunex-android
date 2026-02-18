@@ -9,15 +9,11 @@ plugins {
 
 android {
     namespace = "io.github.lunex_app"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk { version = release(36) { minorApiLevel = 1 } }
 
     defaultConfig {
         applicationId = "io.github.lunex_app"
-        minSdk = 24
+        minSdk = 33
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -77,7 +73,6 @@ dependencies {
     implementation(libs.room.paging)
     implementation(libs.paging.runtime.ktx)
     implementation(libs.paging.compose)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
+    implementation(libs.landscapist.glide)
     debugImplementation(libs.ui.tooling)
 }

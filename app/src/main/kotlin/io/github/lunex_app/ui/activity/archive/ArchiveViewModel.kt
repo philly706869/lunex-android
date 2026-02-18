@@ -1,4 +1,4 @@
-package io.github.lunex_app.ui.screen.archive
+package io.github.lunex_app.ui.activity.archive
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

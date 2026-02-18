@@ -17,7 +17,7 @@ import androidx.room.Index
         )
     ],
     indices = [
-        Index("archive", "uuid"),
+        Index("archive", "uuid", unique = true),
         Index("archive", "deletedAt", "createdAt"),
         Index("archive", "deletedAt", "indexedAt"),
     ],

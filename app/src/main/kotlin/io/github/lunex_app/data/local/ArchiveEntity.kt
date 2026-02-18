@@ -13,6 +13,7 @@ import androidx.room.PrimaryKey
 data class ArchiveEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
+    val path: String,
     val createdAt: Long = System.currentTimeMillis(),
     val deletedAt: Long? = null
 )

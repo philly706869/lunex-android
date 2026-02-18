@@ -1,4 +1,4 @@
-package io.github.lunex_app.ui.screen.home
+package io.github.lunex_app.ui.activity.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import io.github.lunex_app.data.local.LunexDao
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val dao: LunexDao) : ViewModel() {
+class CatalogViewModel @Inject constructor(private val dao: LunexDao) : ViewModel() {
     val archives = Pager(
         config = PagingConfig(
             pageSize = 20,
